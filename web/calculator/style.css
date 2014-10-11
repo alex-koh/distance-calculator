@@ -1,0 +1,25 @@
+body {
+    font-size: 14px;
+}
+
+table {
+    width: 45%;
+    text-align: center;
+}
+
+th {
+    border: 1px solid black;
+}
+
+td {
+    border : 2px solid black;
+    width: 50%;
+}
+
+.city, .calc, .result {
+    height: 100px;
+    overflow: auto;
+}
+.city p, .calc p {
+    margin: 0px;
+}

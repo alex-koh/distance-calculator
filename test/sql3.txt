@@ -1,0 +1,8 @@
+create user 'calculator.admin'@'localhost';
+grant insert,delete,update,select,process
+	on DistanceCalculator
+	to 'calculator.admin'@'localhost';
+create user 'calculator.alex'@'localhost';
+grant select,process
+	on DistanceCalculator 
+	to 'calculator.alex'@'localhost';

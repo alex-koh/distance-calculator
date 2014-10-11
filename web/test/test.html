@@ -1,0 +1,147 @@
+<!doctype html>
+<html>
+<meta charset="utf-8">
+<title>Тестовый проект</title>
+<link rel="stylesheet" type="text/css" href="qunit-1.15.0.css">
+<style type="text/css">
+    .city-list {
+        overflow: auto;
+        height: 10px;
+    }
+</style>
+<script type="text/javascript" src="qunit-1.15.0.js"></script>
+<script type="text/javascript" src="../calculator/jquery-2.1.1.js"></script>
+<script type="text/javascript" src="../calculator/calculator.js"></script>
+<script type="text/javascript">
+    var testLoader = function(handler) {
+        var data = { list : [] };
+        for (var i=0; i<10; i++)
+            data.list[i] = {name : "fffffffffff", id : i};
+        handler.send(data);
+    }
+    QUnit.module("Factory", {
+        setup : function() {
+            var configs = Configs();
+            this.configs = configs;
+        }
+    })
+    QUnit.test("CityHandler",function(assert) {
+        // Структура, похожая на данные, получаемые с сервера
+        var data = { city : {ta : 'ta',	tb : 'tb',	tc : 'tc'}};
+        var names = [];
+        var out = $("<div>");
+        // Строет форму, похожую на реальную, учитывая соответствие имен
+        // в массиве данных и в название классов формы
+        for(var i in data.city) {
+            var name = "city-"+i;
+            //out = out.add("<div class='"+name+"'>");
+            out.append($("<div class='"+name+"'>"));
+            names.push({ name : name, value : data.city[i]});
+        }
+        //out = $("<div>").append(out);
+
+        var factory = Factory();
+        var handler = factory.CityHandler(out);
+        handler(data);
+
+        // Проверяет запись данных в поля формы
+        for(var i=0; i<names.length; i++) {
+            assert.ok(names[i].value);
+            assert.equal(out.find("."+names[i].name).html(), names[i].value);
+        }
+    });
+
+    QUnit.module("ListHandler", {
+        setup : function() {
+            this.data = {
+                list : [
+                    {id : 6, name : "Samara1"},
+                    {id : 22, name : "Samara2"},
+                    {id : 8, name : "Samara3"}
+                ]
+            };
+            this.out = $("<div>");
+            var that = this;
+            var loader = function(data) {
+                that.result = data;
+            }
+            this.handler = Factory().ListHandler(this.out, loader);
+        }
+    });
+    QUnit.test("ListHandler_size", function(assert) {
+        this.handler(this.data);
+        var list = this.data.list;
+        var children = this.out.children();
+        // Проверка наличия списка
+        assert.equal(children.size(), list.length);
+
+    });
+
+    QUnit.test("ListHandler_load", function(assert) {
+        this.handler(this.data);
+        // Проверка функций загрузки информации о городе
+        var list = this.data.list;
+        for(var i=0; i<list.length; i++) {
+            this.out.children().eq(i).click();
+            assert.ok(this.result.id);
+            assert.equal(this.result.id, list[i].id);
+        }
+    });
+
+    QUnit.test("ListHandler_content", function(assert) {
+        this.handler(this.data);
+        // Проверка содержимого загруженного списка
+        var list = this.data.list;
+        var children = this.out.children();
+        for(var i=0; i<list.length; i++) {
+            assert.ok(list[i].name);
+            assert.equal(children.eq(i).text(), list[i].name);
+        }
+    });
+
+    QUnit.module("Blank", {
+        setup : function() {
+            this.blank = $("<div>");
+            this.blank.append($("<div class='city-select' />"));
+            this.blank.append($("<div class='city-list' />"));
+            var server = {
+                "load-list" : {
+                    list : [
+                        {id : 4, name : "Samara2"},
+                        {id : 2, name : "Samara1"}
+                    ]
+                },
+                "city-select" : {
+                    city : { id: 5}
+                }
+            };
+            this.cfg = {
+                getProperty : function(name) {
+                    return name;
+                },
+                loader : function(url, data, handler) {
+                    handler(server[url]);
+                }
+            };
+            this.factory = Factory();
+            this.handler = this.factory.BlankHandler(
+                    this.blank, this.cfg, this.factory);
+        }
+    });
+
+    QUnit.test("dd", function(assert) {
+        var that = $("<div>")
+        assert.ok(this.handler);
+        this.handler.apply(that.get(0));
+        assert.equal(that.size(),1);
+        console.info(that.html());
+    });
+
+</script>
+<head>
+</head>
+<body>
+<div id="qunit"></div>
+<div id="blank"></div>
+</body>
+</html>

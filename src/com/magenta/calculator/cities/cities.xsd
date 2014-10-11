@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema
+	targetNamespace="http://www.magenta-technology.ru/DistanceCalculator"
+	elementFormDefault="qualified"
+	xmlns="http://www.w3.org/2001/XMLSchema"
+	xmlns:cityns="http://www.magenta-technology.ru/DistanceCalculator">
+
+	<element name="map">
+		<complexType>
+			<sequence>
+				<element name="cities" type="cityns:Cities" />
+				<element name="distances" type="cityns:Distances" />
+			</sequence>
+		</complexType>
+	</element>
+
+    <complexType name="Cities">
+		<sequence>
+			<element name="city" type="cityns:City"
+				maxOccurs="unbounded"/>
+		</sequence>
+		<attribute name="size" type="positiveInteger"/>
+	</complexType>
+
+    <complexType name="City">
+        <sequence>
+            <element name="key" type="int" />
+            <element name="name" type="string" />
+            <element name="latitude" type="float" />
+            <element name="longitude" type="float"/>
+        </sequence>
+    </complexType>
+
+	<complexType name="Distances">
+		<sequence>
+			<element name="distance" type="cityns:Distance"
+					 maxOccurs="unbounded" />
+		</sequence>
+		<attribute name="size" type="positiveInteger"/>
+	</complexType>
+
+	<complexType name="Distance">
+		<sequence>
+			<element name="from" type="int" />
+			<element name="to" type="int" />
+			<element name="distance" type="float" />
+		</sequence>
+	</complexType>
+</schema>

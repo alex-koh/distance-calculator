@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+        "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+    
+    <constant name="struts.devMode" value="true"/>
+    <constant name="fromLabel" value="from"/>
+    <constant name="toLabel" value="to"/>
+
+    <package name="default" namespace="/" extends="struts-default">
+        <!--
+            Формирует результаты в JSON-формате и отправляет их клиенту.
+        -->
+        <result-types>
+            <result-type name="jsonResult" class="com.magenta.calculator.JSONResult"/>
+        </result-types>
+
+        <!--
+            Загружает в базу данных новую информацию
+        -->
+        <action name="Admin" class="com.magenta.calculator.AdminAction">
+            <interceptor-ref name="scope">
+                <param name="application">loader, calcFactory</param>
+                <param name="type">start</param>
+                <param name="key">com.magenta.calculator.</param>
+            </interceptor-ref>
+            <interceptor-ref name="defaultStack"/>
+            <result>/calculator/calculator.jsp</result>
+        </action>
+
+        <!-- 
+            Возвращает главную страницу приложения 
+        -->
+        <action name="Main">
+            <interceptor-ref name="scope">
+                <param name="application">loader,calcFactory</param>
+                <param name="key">com.magenta.calculator.</param>
+            </interceptor-ref>
+            <interceptor-ref name="scope">
+                <param name="session">loader,calcFactory</param>
+                <param name="key">com.magenta.calculator.</param>
+                <param name="type">start</param>
+            </interceptor-ref>            
+            <result>/calculator/calculator.jsp</result>
+        </action>
+
+        <!--
+            Формирует и отправляет клиенту список доступных городов.
+        -->
+        <action name="CityList" class="com.magenta.calculator.CityListAction">
+            <interceptor-ref name="scope">
+                <param name="session">loader</param>
+                <param name="key">com.magenta.calculator.</param>
+            </interceptor-ref>
+            <interceptor-ref name="defaultStack"/>
+            <result name="success" type="jsonResult"/>
+        </action>
+
+        <!--
+            Отсылает клиенту информацию о выбранном городе и сохраняет
+            этот выбор на время сессии.
+        -->
+        <action name="City" class="com.magenta.calculator.CityAction">
+            <interceptor-ref name="scope">
+                <param name="session">loader</param>
+                <param name="key">com.magenta.calculator.</param>
+            </interceptor-ref>
+            <interceptor-ref name="defaultStack"/>
+            <result name="success" type="jsonResult"/>
+        </action>
+
+        <!--
+            Вычисляет расстояния между выбранными городами и отправляет
+            результаты клиенту.
+         -->
+        <action name="Result" class="com.magenta.calculator.ResultAction">
+            <interceptor-ref name="scope">
+                <param name="session">loader, calcFactory</param>
+                <param name="key">com.magenta.calculator.</param>
+            </interceptor-ref>
+            <interceptor-ref name="defaultStack"/>
+            <result name="success" type="jsonResult"/>
+        </action>
+
+        <!--
+            Формирует и отправляет клиенту список названий вычислителей,
+            доступных на данный момент.
+        -->
+        <action name="CalcList" class="com.magenta.calculator.CalcListAction">
+            <interceptor-ref name="scope">
+                <param name="application">calcFactory</param>
+                <param name="key">com.magenta.calculator.</param>
+            </interceptor-ref>
+            <interceptor-ref name="defaultStack"/>
+            <result name="success" type="jsonResult"/>
+        </action>
+    </package>
+</struts>
