@@ -1,27 +1,21 @@
 package com.magenta.calculator.calc;
 
 import com.magenta.calculator.cities.City;
-import com.magenta.calculator.data.Loader;
+import com.magenta.calculator.data.DAOFactory;
+import com.magenta.calculator.data.DistanceDAO;
+import com.magenta.calculator.data.CityDAO;
 
-import javax.naming.InitialContext;
-import javax.sql.DataSource;
-import java.sql.*;
-import java.util.Properties;
+import java.util.Map;
 
 /**
  Вычислитель, определяющий расстояние между двумя городами через матрицу
  расстояний
  */
 public class DistanceMatrix implements Calculator {
-	private Loader loader;
+	private DistanceDAO distanceDAO;
 
-	public DistanceMatrix(Loader loader) {
-		this.loader = loader;
-	}
-
-	@Override
-	public String getName() {
-		return "Distance Matrix";
+	public DistanceMatrix(DAOFactory factory) throws Exception {
+		this.distanceDAO = factory.getDistanceDao();
 	}
 
 	/**
@@ -33,6 +27,10 @@ public class DistanceMatrix implements Calculator {
 	 */
 	@Override
 	public float calc(City from, City to) {
-		return loader.load(from.getKey(), to.getKey());
+		try {
+			return distanceDAO.find(from.getKey(), to.getKey());
+		}
+		catch (Exception exc) {	}
+		return Float.MAX_VALUE;
 	}
 }

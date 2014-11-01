@@ -1,35 +1,31 @@
 package com.magenta.calculator;
 
-import com.magenta.calculator.data.CityLoader;
+import com.magenta.calculator.data.CityDAO;
+import com.magenta.calculator.data.DAOFactory;
 import com.opensymphony.xwork2.Action;
 import com.magenta.calculator.cities.City;
 
+import com.opensymphony.xwork2.inject.Inject;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by alex on 9/4/14.
+ * Действие формирует полную информацию о городе по заданному индексу
  */
 public class CityAction implements Action {
     private Map<String,Object> result;
-    private CityLoader loader;
+    @Inject
+	private DAOFactory factory;
     private Integer id;
     @Override
     public String execute() throws Exception {
         result = new HashMap<String, Object>();
-		City city = loader.load(id);
-		city.setKey(id);
-        result.put("city", city);
+		CityDAO dao = factory.getCityDao();
+		City city = dao.find(id);
+		if (city != null)
+        	result.put("city", city);
         return Action.SUCCESS;
     }
-
-	public CityLoader getLoader() {
-		return loader;
-	}
-
-	public void setLoader(CityLoader loader) {
-		this.loader = loader;
-	}
 
 	public void setId(Integer id) {
         this.id = id;

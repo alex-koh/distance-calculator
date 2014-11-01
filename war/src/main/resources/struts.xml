@@ -10,6 +10,18 @@
     <constant name="fromLabel" value="from"/>
     <constant name="toLabel" value="to"/>
 
+    <constant name="com.magenta.calculator.contextPath"
+              value="com.magenta.calculator.cities"></constant>
+    <constant name="com.magenta.calculator.properties"
+              value="default.properties"></constant>
+    
+    <bean class="com.magenta.calculator.calc.SQLCalculatorFactory"
+          type="com.magenta.calculator.calc.CalculatorFactory"
+          scope="singleton"></bean>
+    <bean class="com.magenta.calculator.data.JNDISQLDAOFactory"
+          type="com.magenta.calculator.data.DAOFactory"
+          scope="singleton"></bean>
+
     <package name="default" namespace="/" extends="struts-default">
         <!--
             Формирует результаты в JSON-формате и отправляет их клиенту.
@@ -22,79 +34,23 @@
             Загружает в базу данных новую информацию
         -->
         <action name="Admin" class="com.magenta.calculator.AdminAction">
-            <interceptor-ref name="scope">
-                <param name="application">loader, calcFactory</param>
-                <param name="type">start</param>
-                <param name="key">com.magenta.calculator.</param>
-            </interceptor-ref>
-            <interceptor-ref name="defaultStack"/>
-            <result>/calculator/calculator.jsp</result>
+            <result>/jsp/calculator.jsp</result>
         </action>
 
         <!-- 
             Возвращает главную страницу приложения 
         -->
         <action name="Main">
-            <interceptor-ref name="scope">
-                <param name="application">loader,calcFactory</param>
-                <param name="key">com.magenta.calculator.</param>
-            </interceptor-ref>
-            <interceptor-ref name="scope">
-                <param name="session">loader,calcFactory</param>
-                <param name="key">com.magenta.calculator.</param>
-                <param name="type">start</param>
-            </interceptor-ref>            
-            <result>/calculator/calculator.jsp</result>
+            <result>/jsp/calculator.jsp</result>
         </action>
 
         <!--
-            Формирует и отправляет клиенту список доступных городов.
+            CityList
+            City
+            Result
+            CalcList
         -->
-        <action name="CityList" class="com.magenta.calculator.CityListAction">
-            <interceptor-ref name="scope">
-                <param name="session">loader</param>
-                <param name="key">com.magenta.calculator.</param>
-            </interceptor-ref>
-            <interceptor-ref name="defaultStack"/>
-            <result name="success" type="jsonResult"/>
-        </action>
-
-        <!--
-            Отсылает клиенту информацию о выбранном городе и сохраняет
-            этот выбор на время сессии.
-        -->
-        <action name="City" class="com.magenta.calculator.CityAction">
-            <interceptor-ref name="scope">
-                <param name="session">loader</param>
-                <param name="key">com.magenta.calculator.</param>
-            </interceptor-ref>
-            <interceptor-ref name="defaultStack"/>
-            <result name="success" type="jsonResult"/>
-        </action>
-
-        <!--
-            Вычисляет расстояния между выбранными городами и отправляет
-            результаты клиенту.
-         -->
-        <action name="Result" class="com.magenta.calculator.ResultAction">
-            <interceptor-ref name="scope">
-                <param name="session">loader, calcFactory</param>
-                <param name="key">com.magenta.calculator.</param>
-            </interceptor-ref>
-            <interceptor-ref name="defaultStack"/>
-            <result name="success" type="jsonResult"/>
-        </action>
-
-        <!--
-            Формирует и отправляет клиенту список названий вычислителей,
-            доступных на данный момент.
-        -->
-        <action name="CalcList" class="com.magenta.calculator.CalcListAction">
-            <interceptor-ref name="scope">
-                <param name="application">calcFactory</param>
-                <param name="key">com.magenta.calculator.</param>
-            </interceptor-ref>
-            <interceptor-ref name="defaultStack"/>
+        <action name="*_JSON" class="com.magenta.calculator.{1}Action">
             <result name="success" type="jsonResult"/>
         </action>
     </package>

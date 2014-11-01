@@ -1,49 +1,32 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.magenta.calculator;
 
+import com.magenta.calculator.data.DAOFactory;
 import com.opensymphony.xwork2.Action;
 
+import com.opensymphony.xwork2.inject.Inject;
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
- *
- * @author alex
+ * Действие формирует список состоящий из пар (индекс_города, имя_города).
  */
 public class CityListAction implements Action{
-	private List<Map<String,Object>> cities;
     private Map<String,Object> result;
-	/**
-	 * @return Action.SUCCESS
-	 * @throws Exception
-	 */
+	@Inject
+	private DAOFactory factory;
+
     @Override
 	public String execute() throws Exception {
+		Collection<Map<String,Object>> cities =
+				factory.getCityDao().selectNames();
         result = new HashMap<String, Object>();
         result.put("size", cities.size());
         result.put("list", cities);
         return Action.SUCCESS;
     }
 
-    public List<Map<String, Object>> getCities() {
-        return cities;
-    }
-
-    public void setCities(List<Map<String, Object>> cities) {
-        this.cities = cities;
-    }
-
     public Map<String, Object> getResult() {
         return result;
-    }
-
-    public void setResult(Map<String, Object> result) {
-        this.result = result;
     }
 }

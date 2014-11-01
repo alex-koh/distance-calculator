@@ -6,11 +6,6 @@ import com.magenta.calculator.cities.City;
  * Created by alex on 8/16/14.
  */
 public class ZeroCalculator implements Calculator {
-	@Override
-	public String getName() {
-		return "Zero Calculator";
-	}
-
 	/**
 	 * Всегда возвращает 0
 	 * @param from исходный город

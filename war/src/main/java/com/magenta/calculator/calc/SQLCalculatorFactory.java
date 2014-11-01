@@ -1,7 +1,8 @@
 package com.magenta.calculator.calc;
 
-import com.magenta.calculator.data.Loader;
+import com.magenta.calculator.data.DAOFactory;
 
+import com.opensymphony.xwork2.inject.Inject;
 import java.util.*;
 
 /**
@@ -9,15 +10,21 @@ import java.util.*;
  */
 public class SQLCalculatorFactory implements CalculatorFactory {
 	private Map<String,Calculator> calculators;
-	private Loader loader;
-
+	private DAOFactory factory;
+	private List<String> names;
 	/**
 	 * Конструктор фабрики
 	 */
-	public SQLCalculatorFactory(Loader loader) {
-		calculators = new HashMap<String, Calculator>();
-		Calculator c = new CrowflightCalculator();
-		calculators.put(c.getName(), c);
+	@Inject
+	public SQLCalculatorFactory(DAOFactory factory) {
+		this.factory = factory;
+		calculators.put(CrowflightCalculator.class.getName(), new CrowflightCalculator());
+		calculators.put(ZeroCalculator.class.getName(), new ZeroCalculator());
+		calculators = Collections.unmodifiableMap(calculators);
+
+		names = new ArrayList<String>(calculators.keySet());
+		names.add(DistanceMatrix.class.getName());
+		names = Collections.unmodifiableList(names);
 	}
 
 	/**
@@ -28,7 +35,17 @@ public class SQLCalculatorFactory implements CalculatorFactory {
 	 */
 	@Override
 	public Calculator getCalculator(String name) {
-		return calculators.get(name);
+		Calculator c = calculators.get(name);
+		if (c != null) {
+			return c;
+		}
+		else if (DistanceMatrix.class.getName().equals(name)) {
+			try {
+				return new DistanceMatrix(factory);
+			}
+			catch (Exception exc) { }
+		}
+		return null;
 	}
 
 	/**
@@ -37,7 +54,7 @@ public class SQLCalculatorFactory implements CalculatorFactory {
 	 */
 	@Override
 	public Collection<String> getNames() {
-		return calculators.keySet();
+		return names;
 	}
 
 	/**

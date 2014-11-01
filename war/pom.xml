@@ -37,18 +37,11 @@
             <groupId>com.opensymphony</groupId>
             <artifactId>xwork</artifactId>
             <version>2.0.7</version>
-            <classifier>j4</classifier>
         </dependency>
         <dependency>
             <groupId>org.apache.struts</groupId>
             <artifactId>struts2-core</artifactId>
             <version>2.0.14</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>freemarker</artifactId>
-                    <groupId>freemarker</groupId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>edu.emory.mathcs.util</groupId>
@@ -60,13 +53,6 @@
             <artifactId>retrotranslator-runtime</artifactId>
             <version>1.2.1</version>
         </dependency>
-        <dependency>
-            <groupId>freemarker</groupId>
-            <artifactId>freemarker</artifactId>
-            <version>2.3.8</version>
-            <type>jar</type>
-        </dependency>
-
         <dependency>
             <groupId>org.apache.tomcat</groupId>
             <artifactId>tomcat-jdbc</artifactId>
@@ -92,7 +78,17 @@
             <version>6.8.8</version>
             <scope>test</scope>
         </dependency>
-
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.33</version>
+        </dependency>
+        <dependency>
+            <groupId>org.dbunit</groupId>
+            <artifactId>dbunit</artifactId>
+            <version>2.4.9</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <!--

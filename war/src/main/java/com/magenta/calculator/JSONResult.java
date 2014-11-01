@@ -9,7 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 /**
- * Created by alex on 9/10/14.
+ * Данный класс получает информацию из поля result, формирует на основании
+ * неё JSON-объект и отправляет его пользователю.
  */
 public class JSONResult implements Result {
     @Override

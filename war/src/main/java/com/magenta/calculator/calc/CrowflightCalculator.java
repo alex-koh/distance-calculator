@@ -25,12 +25,4 @@ class CrowflightCalculator implements Calculator {
 		double cL1mL2 = cos((from.getLongitude()-to.getLongitude())*DEG);
 		return (float) (Re*acos(c2Phi*cL1mL2+s2Phi));
 	}
-	/**
-	 * Имя метода.
-	 * @return имя.
-	 */
-	@Override
-	public String getName() {
-		return "Crowflight";
-	}
 }

@@ -7,12 +7,6 @@ import com.magenta.calculator.cities.City;
  */
 public interface Calculator {
 	/**
-	 * Имя вычислителя
-	 * @return имя
-	 */
-	String getName();
-
-	/**
 	 * Расчет дистанции между городами
 	 * @param from исходный город
 	 * @param to конечный город

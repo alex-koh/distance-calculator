@@ -1,8 +1,8 @@
 create user 'calculator.admin'@'localhost';
-grant insert,delete,update,select,process
-	on DistanceCalculator
-	to 'calculator.admin'@'localhost';
-create user 'calculator.alex'@'localhost';
-grant select,process
-	on DistanceCalculator 
-	to 'calculator.alex'@'localhost';
+grant insert,select on DistanceCalculator.* to 'calculator.admin'@'localhost';
+grant insert,select on TestDistanceCalculator.* to 'calculator.admin'@'localhost';
+set password for 'calculator.admin'@'localhost' = PASSWORD('admin');
+
+create user 'calculator.admin'@'localhost';
+grant insert,select,update,delete on TestDistanceCalculator.* to 'calculator.test'@'localhost';
+set password for 'calculator.test'@'localhost' = PASSWORD('test');
