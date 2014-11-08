@@ -18,6 +18,7 @@ public class SQLCalculatorFactory implements CalculatorFactory {
 	@Inject
 	public SQLCalculatorFactory(DAOFactory factory) {
 		this.factory = factory;
+		calculators = new HashMap<String, Calculator>();
 		calculators.put(CrowflightCalculator.class.getName(), new CrowflightCalculator());
 		calculators.put(ZeroCalculator.class.getName(), new ZeroCalculator());
 		calculators = Collections.unmodifiableMap(calculators);

@@ -119,7 +119,7 @@ public class SQLCityDAO implements CityDAO,SQLDAOSettable {
 		ResultSet resultSet = selectNames.executeQuery();
 		while (resultSet.next()) {
 			Map<String, Object> city = new HashMap<String, Object>();
-			city.put("index", resultSet.getInt(1));
+			city.put("key", resultSet.getInt(1));
 			city.put("name", resultSet.getString(2));
 			result.add(city);
 		}
@@ -132,7 +132,8 @@ public class SQLCityDAO implements CityDAO,SQLDAOSettable {
 	 */
 	@Override
 	protected void finalize() throws Throwable {
-		connection.close();
+		if (connection != null)
+			connection.close();
 		super.finalize();
 	}
 }

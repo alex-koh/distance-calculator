@@ -10,19 +10,17 @@
     </parent>
 
     <artifactId>distance-calculator-server</artifactId>
-    <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
 
     <name>Server Side of distance-calculator</name>
 
     <dependencies>
-<!--
         <dependency>
-            <groupId>org.webjars</groupId>
-            <artifactId>jquery</artifactId>
-            <version>2.1.1</version>
+            <groupId>com.magenta.calculator</groupId>
+            <artifactId>js-lib</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>provided</scope>
         </dependency>
--->
         <dependency>
             <groupId>com.magenta.calculator</groupId>
             <artifactId>cities-xml</artifactId>
@@ -34,30 +32,35 @@
             <version>20140107</version>
         </dependency>
         <dependency>
-            <groupId>com.opensymphony</groupId>
-            <artifactId>xwork</artifactId>
-            <version>2.0.7</version>
-        </dependency>
-        <dependency>
             <groupId>org.apache.struts</groupId>
             <artifactId>struts2-core</artifactId>
             <version>2.0.14</version>
         </dependency>
+
         <dependency>
-            <groupId>edu.emory.mathcs.util</groupId>
-            <artifactId>emory-util-concurrent</artifactId>
-            <version>2.1</version>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>1.1.1</version>
         </dependency>
         <dependency>
-            <groupId>net.sf.retrotranslator</groupId>
-            <artifactId>retrotranslator-runtime</artifactId>
-            <version>1.2.1</version>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>1.0</version>
         </dependency>
-        <dependency>
-            <groupId>org.apache.tomcat</groupId>
-            <artifactId>tomcat-jdbc</artifactId>
-            <version>7.0.30</version>
-        </dependency>
+        <!--
+<dependency>
+<groupId>edu.emory.mathcs.util</groupId>
+<artifactId>emory-util-concurrent</artifactId>
+<version>2.1</version>
+</dependency>
+-->
+        <!--
+<dependency>
+    <groupId>net.sf.retrotranslator</groupId>
+    <artifactId>retrotranslator-runtime</artifactId>
+    <version>1.2.1</version>
+</dependency>
+-->
 
         <dependency>
             <groupId>javax</groupId>
@@ -66,6 +69,12 @@
             <scope>provided</scope>
         </dependency>
 
+        <dependency>
+            <groupId>org.apache.tomcat</groupId>
+            <artifactId>tomcat-jdbc</artifactId>
+            <version>7.0.30</version>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-all</artifactId>
@@ -82,32 +91,43 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>5.1.33</version>
-        </dependency>
-        <dependency>
-            <groupId>org.dbunit</groupId>
-            <artifactId>dbunit</artifactId>
-            <version>2.4.9</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
 
-    <!--
-        <build>
-            <plugins>
-                <plugin>
-                    <artifactId>maven-war-plugin</artifactId>
-                    <version>2.4</version>
-                    <configuration>
-                        <overlays>
-                            <overlay>
-                                <id>download-min-js</id>
-                                <type>jar</type>
-                                <targetPath/>
-                            </overlay>
-                        </overlays>
-                    </configuration>
-                </plugin>
-            </plugins>
-        </build>
-    -->
-    </project>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <groups></groups>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.5</version>
+                <configuration>
+                    <overlays>
+                        <overlay>
+                            <groupId>com.magenta.calculator</groupId>
+                            <artifactId>js-lib</artifactId>
+                            <type>jar</type>
+                        </overlay>
+                    </overlays>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <version>2.2</version>
+                <configuration>
+                    <url>http://localhost:8080/manager/text</url>
+                    <username>calculator.admin</username>
+                    <password>admin</password>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

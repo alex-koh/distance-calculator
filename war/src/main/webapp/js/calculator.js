@@ -129,11 +129,11 @@ var Factory = function() {
         var factory = this;
         for (var i=0; i<cfg.length; i++) {
             var s = factory.ListSetter(cfg[i].out, name);
-            s.setAction("id", function(loader, label) {
-                return function(id) {
+            s.setAction("key", function(loader, label) {
+                return function(key) {
                     this.click(function() {
-                        selected[label] = id;
-                        loader({'id' : id});
+                        selected[label] = key;
+                        loader({'key' : key});
                     });
                 }
             }(cfg[i].loader, cfg[i].label));
@@ -170,6 +170,7 @@ var Factory = function() {
         that.setAction("name", function(name) {
             map[name] = false;
             this.click(function() {
+                console.info("click name="+name);
                 map[name] = !map[name];
             });
         });

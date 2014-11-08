@@ -9,27 +9,29 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>cities-xml</artifactId>
+    <artifactId>js-lib</artifactId>
     <packaging>jar</packaging>
-    <name>XML binding</name>
+    <name>JavsScrip libraries</name>
 
     <build>
         <plugins>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
-                <artifactId>jaxb2-maven-plugin</artifactId>
-                <version>1.6</version>
+                <artifactId>wagon-maven-plugin</artifactId>
+                <version>1.0-beta-5</version>
                 <executions>
                     <execution>
-                        <id>xjc</id>
+                        <phase>generate-resources</phase>
                         <goals>
-                            <goal>xjc</goal>
+                            <goal>download-single</goal>
                         </goals>
+                        <configuration>
+                            <url>https://ajax.googleapis.com/ajax/libs/jquery/2.1.1</url>
+                            <fromFile>jquery.min.js</fromFile>
+                            <toFile>${project.build.directory}/classes/js/lib/jquery.min.2.1.1.js</toFile>
+                        </configuration>
                     </execution>
                 </executions>
-                <configuration>
-                    <packageName>com.magenta.calculator.cities</packageName>
-                </configuration>
             </plugin>
         </plugins>
     </build>

@@ -8,6 +8,7 @@ import com.magenta.calculator.cities.Distances;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import javax.naming.Context;
 import javax.xml.bind.annotation.XmlSchema;
 
 import org.w3c.dom.Document;
@@ -21,6 +22,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import java.net.JarURLConnection;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.sql.Connection;
 import java.util.*;
 
 import static org.testng.Assert.*;
@@ -29,7 +31,11 @@ import static org.mockito.Mockito.*;
 /**
  * Created by alex on 10/2/14.
  */
+
+@Test(groups = "xml")
 public class TestListener {
+	protected JAXBContext context;
+
 	private Unmarshaller unmarshaller;
 	private Listener listener;
 	private DAOFactory factory;
@@ -41,13 +47,12 @@ public class TestListener {
 	private final int sizes[] = {0,0};
 
     @BeforeMethod
-    public void init() throws Exception {
+    public void beforeListnerMethod() throws Exception {
 		Class clazz = City.class;
-		JarURLConnection con = (JarURLConnection) clazz.getResource(clazz.getSimpleName()+".class").openConnection();
-		ClassLoader loader = new URLClassLoader(new URL[] {con.getJarFileURL()});
-		JAXBContext c = JAXBContext.newInstance(clazz.getPackage().getName(), loader);
+		context = JAXBContext.newInstance(clazz.getPackage().getName());
 
-		unmarshaller = c.createUnmarshaller();
+		ns = clazz.getPackage().getAnnotation(XmlSchema.class).namespace();
+		unmarshaller = context.createUnmarshaller();
 
 		cityDAO = mock(CityDAO.class);
 		distanceDAO = mock(DistanceDAO.class);
@@ -63,7 +68,6 @@ public class TestListener {
 		handler = new ValidationEventCollector();
 		unmarshaller.setEventHandler(handler);
 
-		ns = clazz.getPackage().getAnnotation(XmlSchema.class).namespace();
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 		document = docFactory.newDocumentBuilder().newDocument();
     }

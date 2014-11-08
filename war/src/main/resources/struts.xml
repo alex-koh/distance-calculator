@@ -29,11 +29,16 @@
         <result-types>
             <result-type name="jsonResult" class="com.magenta.calculator.JSONResult"/>
         </result-types>
-
+        <!--
+            Страница администратора
+        -->
+        <action name="Admin">
+            <result>jsp/admin.jsp</result>
+        </action>
         <!--
             Загружает в базу данных новую информацию
         -->
-        <action name="Admin" class="com.magenta.calculator.AdminAction">
+        <action name="Upload" class="com.magenta.calculator.UploadAction">
             <result>/jsp/calculator.jsp</result>
         </action>
 

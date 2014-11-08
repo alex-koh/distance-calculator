@@ -2,20 +2,19 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <script type="text/javascript" src="calculator/jquery-2.1.1.js"></script>
-    <script type="text/javascript" src="calculator/calculator.js"></script>
-    <link rel="stylesheet" href="calculator/style.css" type="text/css">
+    <script type="text/javascript" src="js/lib/jquery.min.2.1.1.js"></script>
+    <script type="text/javascript" src="js/calculator.js"></script>
+    <link rel="stylesheet" href="styles/style.css" type="text/css">
     <title>Calculator</title>
 </head>
 <body
         data-root = "<%=request.getContextPath()%>"
-        data-calc-list="CalcList.action"
-        data-city-list="CityList.action"
-        data-city-select="City.action"
-        data-result="Result.action">
+        data-calc-list="CalcList_JSON.action"
+        data-city-list="CityList_JSON.action"
+        data-city-select="City_JSON.action"
+        data-result="Result_JSON.action">
 
 <h1>Привет</h1>
-<a href="<%=request.getContextPath()%>/Admin.action" ><h1>Admin</h1></a>
 
 <!-- Главная таблица, в которую средствами js помещаются дополнительные
     таблицы, каждая из которых отвечает за один из концов измеряемого
@@ -79,7 +78,7 @@
                     <tbody>
                     <tr>
                         <td>Номер</td>
-                        <td><div class="city-select-id" ></div></td>
+                        <td><div class="city-select-key" ></div></td>
                     </tr>
                     <tr>
                         <td>Название</td>
@@ -100,7 +99,5 @@
         </tbody>
     </table>
 </div>
-
-<a href="<%=request.getContextPath()%>"><h1>index</h1></a>
 </body>
 </html>

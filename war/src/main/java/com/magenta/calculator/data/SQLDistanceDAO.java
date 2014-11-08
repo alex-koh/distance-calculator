@@ -33,7 +33,7 @@ public class SQLDistanceDAO implements DistanceDAO, SQLDAOSettable {
 				"FROM Distance " +
 				"WHERE id = (" +
 					"select max(id)" +
-					"from Distance" +
+					"from Distance " +
 					"where (FromCity=?) and (ToCity=?)" +
 				");");
 	}
@@ -101,7 +101,8 @@ public class SQLDistanceDAO implements DistanceDAO, SQLDAOSettable {
 	 */
 	@Override
 	protected void finalize() throws Throwable {
-		connection.close();
+		if (connection != null)
+			connection.close();
 		super.finalize();
 	}
 }

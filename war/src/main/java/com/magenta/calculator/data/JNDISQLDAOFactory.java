@@ -1,9 +1,8 @@
 package com.magenta.calculator.data;
 
-import javax.annotation.Resource;
+import javax.naming.Context;
+import javax.naming.InitialContext;
 import javax.sql.DataSource;
-
-import com.opensymphony.xwork2.inject.Inject;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -13,6 +12,27 @@ import java.sql.SQLException;
  */
 public class JNDISQLDAOFactory implements DAOFactory {
 	private DataSource dataSource;
+	public JNDISQLDAOFactory() throws Exception {
+		java.util.logging.Logger log = java.util.logging.Logger.getLogger(getClass().getName());
+		log.info("============ load ...");
+		Context context = new InitialContext();
+		Object obj = context.lookup("java:comp/env/jdbc/DistanceCalculator");
+		if (obj instanceof DataSource)
+			dataSource = (DataSource) obj;
+		else
+			throw new NullPointerException("dataSource==null");
+		Connection connection = null;
+		try {
+			connection = dataSource.getConnection();
+		}
+		finally {
+			if (connection != null)
+				connection.close();
+		}
+	}
+	public JNDISQLDAOFactory(DataSource dataSource) {
+		this.dataSource = dataSource;
+	}
 	private <T extends SQLDAOSettable>
 	T getDAO(Class<T> clazz) throws SQLException {
 		T dao;
@@ -33,10 +53,6 @@ public class JNDISQLDAOFactory implements DAOFactory {
 			if (connection != null)
 				connection.close();
 		}
-	}
-	@Resource(name="java:comp/jdbc/com/magenta/calculator/DistanceCalculator")
-	public void setDataSource(DataSource dataSource) {
-		this.dataSource = dataSource;
 	}
 	@Override
 	public CityDAO getCityDao() throws SQLException {
