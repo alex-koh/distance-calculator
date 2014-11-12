@@ -12,7 +12,7 @@ import java.util.Map;
  * Действие формирует полную информацию о городе по заданному индексу
  */
 public class CityAction implements Action {
-    private Map<String,Object> result;
+    private Object result;
     @Inject
 	private DAOFactory factory;
     private Integer key;
@@ -20,9 +20,7 @@ public class CityAction implements Action {
     public String execute() throws Exception {
         result = new HashMap<String, Object>();
 		CityDAO dao = factory.getCityDao();
-		Object city = dao.find(key);
-		if (city != null)
-        	result.put("city", city);
+		result = dao.find(key);
         return Action.SUCCESS;
     }
 
@@ -30,7 +28,7 @@ public class CityAction implements Action {
 		this.key = key;
 	}
 
-	public Map<String,Object> getResult() {
+	public Object getResult() {
         return result;
     }
 }

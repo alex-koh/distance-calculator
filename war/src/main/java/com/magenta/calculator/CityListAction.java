@@ -12,21 +12,17 @@ import java.util.Map;
  * Действие формирует список состоящий из пар (индекс_города, имя_города).
  */
 public class CityListAction implements Action{
-    private Map<String,Object> result;
+    private Collection<Map<String,Object>> result;
 	@Inject
 	private DAOFactory factory;
 
     @Override
 	public String execute() throws Exception {
-		Collection<Map<String,Object>> cities =
-				factory.getCityDao().selectNames();
-        result = new HashMap<String, Object>();
-        result.put("size", cities.size());
-        result.put("list", cities);
+        result = factory.getCityDao().selectNames();
         return Action.SUCCESS;
     }
 
-    public Map<String, Object> getResult() {
+    public Collection<Map<String, Object>> getResult() {
         return result;
     }
 }

@@ -14,10 +14,10 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <install.dir>~/work/java</install.dir>
+        <prop>${maven.build.timestamp}</prop>
     </properties>
 
     <modules>
-        <module>xsd</module>
         <module>war</module>
         <module>js-lib</module>
     </modules>

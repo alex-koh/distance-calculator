@@ -36,13 +36,9 @@ public class ResultAction implements  Action{
 			for (String n : names) {
 				Calculator c = calcFactory.getCalculator(n);
 				if (c != null) {
-					Map<String, Object> record = new HashMap<String, Object>();
-					record.put("name", c.getClass().getName());
-					record.put("value", c.calc(fromCity, toCity));
-					records.add(record);
+					result.put(c.getClass().getName(),c.calc(fromCity, toCity));
 				}
 			}
-			result.put("result", records);
 			return Action.SUCCESS;
 		}
 		return Action.ERROR;

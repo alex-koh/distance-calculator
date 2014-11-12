@@ -7,14 +7,8 @@
 <struts>
     
     <constant name="struts.devMode" value="true"/>
-    <constant name="fromLabel" value="from"/>
-    <constant name="toLabel" value="to"/>
+    <!--constant name="struts.locale" value="ru"/-->
 
-    <constant name="com.magenta.calculator.contextPath"
-              value="com.magenta.calculator.cities"></constant>
-    <constant name="com.magenta.calculator.properties"
-              value="default.properties"></constant>
-    
     <bean class="com.magenta.calculator.calc.SQLCalculatorFactory"
           type="com.magenta.calculator.calc.CalculatorFactory"
           scope="singleton"></bean>
@@ -39,14 +33,7 @@
             Загружает в базу данных новую информацию
         -->
         <action name="Upload" class="com.magenta.calculator.UploadAction">
-            <result>/jsp/calculator.jsp</result>
-        </action>
-
-        <!-- 
-            Возвращает главную страницу приложения 
-        -->
-        <action name="Main">
-            <result>/jsp/calculator.jsp</result>
+            <result>/</result>
         </action>
 
         <!--

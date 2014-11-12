@@ -9,6 +9,4 @@ public interface CalculatorFactory {
 	Calculator getCalculator(String name);
 
 	Collection<String> getNames();
-
-	String getDescription(String name);
 }

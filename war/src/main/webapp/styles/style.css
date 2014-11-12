@@ -1,25 +1,51 @@
 body {
-    font-size: 14px;
+    font-family: Verdana, Helvetica, Arial, sans-serif;
+    margin: 20px;
 }
 
-table {
-    width: 45%;
-    text-align: center;
+#main {
+    background: #CCC;
+    border: thin dotted #888;
+    padding: 10px;
 }
 
 th {
-    border: 1px solid black;
+    text-align: right;
+    vertical-align: top;
 }
 
 td {
-    border : 2px solid black;
-    width: 50%;
+    border: thin dotted #888;
 }
 
-.city, .calc, .result {
-    height: 100px;
-    overflow: auto;
+th, td {
+    padding-right: 10px;
+    padding-left: 10px;
 }
-.city p, .calc p {
-    margin: 0px;
+
+table table th, table table td {
+    border: none;
+    padding: 0px;
+}
+
+.text {
+    font-family: monospace;
+    background: #FFF;
+    text-align: left;
+    padding-right: 5px;
+    padding-left: 5px;
+    border: thin solid #888;
+    width: 30px;
+}
+
+select {
+    width : 100px;
+}
+
+#admin {
+    font-size: small;
+}
+
+.calculator input {
+    font-family: monospace;
 }

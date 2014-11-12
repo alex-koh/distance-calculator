@@ -3,15 +3,17 @@ package com.magenta.calculator.calc;
 import com.magenta.calculator.data.DAOFactory;
 
 import com.opensymphony.xwork2.inject.Inject;
+
 import java.util.*;
 
 /**
  Фабрика создающая вычислители расстояний
  */
 public class SQLCalculatorFactory implements CalculatorFactory {
-	private Map<String,Calculator> calculators;
+	private Map<String, Calculator> calculators;
 	private DAOFactory factory;
 	private List<String> names;
+
 	/**
 	 * Конструктор фабрики
 	 */
@@ -30,6 +32,7 @@ public class SQLCalculatorFactory implements CalculatorFactory {
 
 	/**
 	 * Возвращает новый экземпляр вычислителя по его имени
+	 *
 	 * @param name имя вычислителя
 	 * @return экземпляр вычислителя (возвращает null, если вычислитель с таким
 	 * именем не найден)
@@ -39,32 +42,22 @@ public class SQLCalculatorFactory implements CalculatorFactory {
 		Calculator c = calculators.get(name);
 		if (c != null) {
 			return c;
-		}
-		else if (DistanceMatrix.class.getName().equals(name)) {
+		} else if (DistanceMatrix.class.getName().equals(name)) {
 			try {
 				return new DistanceMatrix(factory);
+			} catch (Exception exc) {
 			}
-			catch (Exception exc) { }
 		}
 		return null;
 	}
 
 	/**
 	 * Возвращает список имен доступных вычислителей
+	 *
 	 * @return неизменяемый список имен
 	 */
 	@Override
 	public Collection<String> getNames() {
 		return names;
 	}
-
-	/**
-	 * Понятное для человека имя вычислителя
-	 * @param name имя вычислителя
-	 * @return имя, возвращаемое пользователю
-	 */
-    @Override
-	public String getDescription(String name) {
-        return "description";
-    }
 }

@@ -1,6 +1,7 @@
 package com.magenta.calculator.calc;
 
 import com.magenta.calculator.cities.City;
+import com.opensymphony.xwork2.ActionContext;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
@@ -8,9 +9,9 @@ import org.testng.annotations.Test;
 
 import static org.testng.Assert.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.util.*;
 
 
 @Test(groups = "calc")
@@ -124,7 +125,7 @@ public class TestCrowflight {
 	 * Создает фабрику вычислителей
 	 */
 	@BeforeClass
-	public void beforeCrowflight() {
+	public void beforeCrowflight() throws Exception{
 		factory =  new SQLCalculatorFactory(null);
 	}
 
@@ -138,10 +139,11 @@ public class TestCrowflight {
 
 	/**
 	 * Функция проверяет работу вычислителей
-	 * @param from
-	 * @param to
-	 * @param to1
-	 * @param a
+	 * @param from город отправления
+	 * @param to город прибытия
+	 * @param to1 угловое расстояние между городом from и данным городом
+	 *               составляет 1 рад
+	 * @param a угол между городами в радианах
 	 * @throws Exception
 	 */
 	@Test(dataProvider = "dataTest")
